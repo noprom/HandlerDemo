@@ -8,25 +8,43 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class MainActivity extends Activity implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private TextView textView;
     private Button button;
-    private Handler handler = new Handler() {
-        // handler处理消息
+//    private Handler handler = new Handler() {
+//        // handler处理消息
+//        @Override
+//        public void handleMessage(Message msg) {
+////            textView.setText("" + msg.arg1 + "-" + msg.arg2);、
+//            textView.setText(msg.obj + "");
+//        }
+//    };
+
+    // 指定callBack
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            Toast.makeText(getApplicationContext(), "" + 1, Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }) {
         @Override
         public void handleMessage(Message msg) {
-//            textView.setText("" + msg.arg1 + "-" + msg.arg2);、
-            textView.setText(msg.obj + "");
+            Toast.makeText(getApplicationContext(), "" + 2, Toast.LENGTH_LONG).show();
         }
     };
 
+
     @Override
     public void onClick(View v) {
-        handler.removeCallbacks(myRunnable);
+//        handler.removeCallbacks(myRunnable);
+        handler.sendEmptyMessage(1);
     }
+
 
     class Person {
         public int age;
@@ -96,7 +114,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }.start();
 
 
-        handler.postDelayed(myRunnable,1000);
+        handler.postDelayed(myRunnable, 1000);
 
 
 //

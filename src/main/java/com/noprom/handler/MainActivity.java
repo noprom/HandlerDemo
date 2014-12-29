@@ -1,6 +1,7 @@
 package com.noprom.handler;
 
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +13,13 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 
     private TextView textView;
-    private Handler handler = new Handler();
+    private Handler handler = new Handler(){
+        // handler处理消息
+        @Override
+        public void handleMessage(Message msg) {
+            textView.setText(""+msg.arg1);
+        }
+    };
 
 
     private ImageView imageView;
@@ -41,8 +48,30 @@ public class MainActivity extends ActionBarActivity {
 //        textView = (TextView) findViewById(R.id.id_textview);
         imageView = (ImageView) findViewById(R.id.id_imageView);
 
-        handler.postDelayed(myRunnable,1000);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                    Message msg = new Message();
+                    msg.arg1 = 100;
+                    // 发送方法
+                    handler.sendMessage(msg);
 
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+
+
+
+//        handler.postDelayed(myRunnable,1000);
+
+
+//
 //        new Thread(){
 //            public void run(){
 //                try {

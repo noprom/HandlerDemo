@@ -9,12 +9,17 @@ import android.util.Log;
 import android.widget.TextView;
 
 /**
- * Created by noprom on 2015/1/9.
+ * Created by noprom on 2015/1/11.
  */
 public class SecondActivity extends Activity{
 
-    private Handler handler = new Handler();
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            Log.i("TAG","UI-------------------->"+Thread.currentThread());
+        }
+    };
 
     class MyThread extends Thread{
 
@@ -23,6 +28,7 @@ public class SecondActivity extends Activity{
         public void run() {
             // 创建Looper
             Looper.prepare();
+            // 创建handler处理消息
             handler = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
@@ -34,14 +40,16 @@ public class SecondActivity extends Activity{
     }
 
     private MyThread thread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 设置布局
         TextView textView = new TextView(this);
         textView.setText("Hello hanlder~");
         setContentView(textView);
 
-
+        // 创建线程并开启线程
         thread = new MyThread();
         thread.start();
         try {
@@ -50,6 +58,9 @@ public class SecondActivity extends Activity{
             e.printStackTrace();
         }
 
+        // 发送消息
         thread.handler.sendEmptyMessage(1);
+        handler.sendEmptyMessage(1);
+
     }
 }

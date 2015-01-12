@@ -29,13 +29,26 @@ public class FiveActivity extends Activity {
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    updateUI();
+                    viewUI();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }.start();
 
+    }
+
+    /**
+     * 第四种方式
+     * 通过textview的post方法
+     */
+    private void viewUI() {
+        textView.post(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText("ok in viewUI");
+            }
+        });
     }
 
     /**

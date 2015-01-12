@@ -83,7 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // 初始化View
         textView = (TextView) findViewById(R.id.id_textview);
         imageView = (ImageView) findViewById(R.id.id_imageView);
-        button = (Button) findViewById(R.id.id_button);
+        button = (Button) findViewById(R.id.stop);
         button.setOnClickListener(this);
 
 

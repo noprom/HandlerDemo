@@ -29,7 +29,7 @@ public class FiveActivity extends Activity {
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    viewUI();
+                    textView.setText("ok in not UI thread");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

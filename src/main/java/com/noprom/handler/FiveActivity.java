@@ -14,7 +14,7 @@ public class FiveActivity extends Activity {
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-
+            textView.setText("ok in handler2");
         }
     };
     @Override
@@ -29,17 +29,46 @@ public class FiveActivity extends Activity {
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            textView.setText("ok");
-                        }
-                    });
+                    updateUI();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }.start();
 
+    }
+
+    /**
+     * 第三种方式
+     * 实现runOnUiThread的runnable接口
+     */
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText("ok in updateUI");
+            }
+        });
+    }
+
+    /**
+     * 第二重方式
+     * 直接发送一个message
+     */
+    private void handler2() {
+        handler.sendEmptyMessage(1);
+    }
+
+    /**
+     * 第一种方式
+     * 通过handler的post方法更新UI
+     */
+    private void handler1() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText("ok in handler1");
+            }
+        });
     }
 }
